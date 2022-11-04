@@ -47,6 +47,7 @@ module.exports = {
         '@typescript-eslint/no-var-requires': 'off',
         '@typescript-eslint/indent': ['error', 4, {'SwitchCase': 1, 'ignoredNodes': ['PropertyDefinition']}],
         '@typescript-eslint/no-unused-vars': ['error'],
+        "@typescript-eslint/triple-slash-reference": ["off"],
         'react/jsx-wrap-multilines': [
             'error',
             {
