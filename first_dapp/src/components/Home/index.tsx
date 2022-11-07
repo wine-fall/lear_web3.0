@@ -43,7 +43,9 @@ const Home: React.FC = () => {
             // request access to account 
             const accounts = await ethereum.request<string[]>({method: "eth_requestAccounts"});
             //set the account in the state 
-            accounts && setCurrentAccount(accounts[0]!); 
+            if (accounts && accounts.length > 0 && typeof accounts[0] === "string") {
+                setCurrentAccount(accounts[0]);
+            }
         } catch (error){
             console.log(error);
         }
@@ -51,8 +53,7 @@ const Home: React.FC = () => {
 
     //run function checkIfWalletIsConnected when the page loads
     useEffect(() => {
-        console.log('useEffect');
-        // checkIfWalletIsConnected();
+        checkIfWalletIsConnected();
     }, []);
 
     //connect to wallet
@@ -72,7 +73,7 @@ const Home: React.FC = () => {
     return (
         <div className="App">
             <div style={{display: 'flex', justifyContent: 'center', height: '50px'}}>
-                {/* {currentAccount === "" ? walletNotConnected()  : walletConnected()} */}
+                {currentAccount === "" ? walletNotConnected()  : walletConnected()}
                 <br />
             </div>
         </div>
