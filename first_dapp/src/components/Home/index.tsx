@@ -6,7 +6,7 @@ const Home: React.FC = () => {
     const [currentAccount, setCurrentAccount] = useState<string>("");
 
     // check wallet connection when the page loads
-    const checkIfWalletIsConnected = () => {
+    const checkIfWalletIsConnected = async () => {
         // access to window.ethereum
         const {ethereum} = window;
         //check if user has metamask 
@@ -14,37 +14,54 @@ const Home: React.FC = () => {
             alert("Make sure you have metamask");
             return;
         }
+        // define avax network values 
+        const avax_mainnet = [{
+            chainId: '0xA86A',
+            chainName: 'Avalanche Mainnet C-Chain',
+            nativeCurrency: {
+                name: 'Avalanche',
+                symbol: 'AVAX',
+                decimals: 18
+            },
+            rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
+            blockExplorerUrls: ['https://snowtrace.io/']
+        }];  
+        // request to add the new network 
+        const tx = await ethereum.request({method: 'wallet_addEthereumChain', params: avax_mainnet}).catch();
+        if (tx) {
+            console.log(tx);
+        }
+        console.log("Current network", ethereum.networkVersion);
         //get the wallet account
-        ethereum.request<string[]>({method: 'eth_accounts'}).then((accounts) => {
-            //get the first account
-            if (accounts && accounts.length !== 0){
-                const account = accounts[0];
-                console.log("Found account:", account);
-                //set the account as a state 
-                account && setCurrentAccount(account);
-            } else {
-                console.log("No account");
-            }
-        });
+        const accounts = await ethereum.request<string[]>({method: "eth_requestAccounts"});
+        if (accounts && accounts.length !== 0 && accounts[0]) {
+            setCurrentAccount(accounts[0]); 
+        }
     };
 
     // connect to wallet 
     const connectWallet = async () => {
         try {
-            // get the wallet 
             const {ethereum} = window;
-            // there is no wallet extension 
+
             if (!ethereum) {
                 alert("Opps, looks like there is no wallet!");
                 return;
             }
+
             const currentNetwork = ethereum.networkVersion;
             console.log("Current network", currentNetwork);
-            // request access to account 
+
+            //check which network the wallet is connected on 
+            if (currentNetwork != '4'){
+                // prompt user with a message to switch to network 4 which is the rinkeby network on metamask
+                alert("Opps, only works on Rinkeby! Please change your //network :)");
+                return;
+            }
+
             const accounts = await ethereum.request<string[]>({method: "eth_requestAccounts"});
-            //set the account in the state 
-            if (accounts && accounts.length > 0 && typeof accounts[0] === "string") {
-                setCurrentAccount(accounts[0]);
+            if (accounts && accounts.length !== 0 && accounts[0]) {
+                setCurrentAccount(accounts[0]); 
             }
         } catch (error){
             console.log(error);
