@@ -1,1 +1,0 @@
-export const INFURA_PROJECT_ID = '111655a940fb41859f0e56d206e44c63';

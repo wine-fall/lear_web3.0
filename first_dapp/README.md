@@ -1,2 +1,0 @@
-follow the tutorial: https://coinsbench.com/everything-i-learnt-building-my-first-dapp-a-frontend-perspective-ba810be1493f
-tut2: https://dev.to/edatweets_/intro-to-dapps-create-your-dapp-frontend-wreact-38fi
