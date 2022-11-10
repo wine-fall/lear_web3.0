@@ -17,7 +17,6 @@ function App() {
   const [highestBidder, setHighestBidder] = useState("");
 
   // Sets up a new Ethereum provider and returns an interface for interacting with the smart contract
-  // 使用ethers获取合约
   async function initializeProvider() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
@@ -25,14 +24,12 @@ function App() {
   }
 
   // Displays a prompt for the user to select which accounts to connect
-  // 弹出钱包，让我们选择账户
   async function requestAccount() {
     const account = await window.ethereum.request({
       method: "eth_requestAccounts",
     });
     setAccount(account[0]);
   }
-  // 获取最高出价
   async function fetchHighestBid() {
     if (typeof window.ethereum !== "undefined") {
       const contract = await initializeProvider();
@@ -74,7 +71,6 @@ function App() {
       }
     }
   }
-  // 提价出价
   async function submitBid(event) {
     event.preventDefault();
     if (typeof window.ethereum !== "undefined") {
@@ -93,7 +89,6 @@ function App() {
       }
     }
   }
-  // 房屋主人获取转账
   async function withdraw() {
     if (typeof window.ethereum !== "undefined") {
       const contract = await initializeProvider();
