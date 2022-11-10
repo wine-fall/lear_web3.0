@@ -57,7 +57,7 @@ contract Auction {
     constructor () {
         owner = msg.sender;
         startTime = block.timestamp;
-        endTime = block.timestamp + 12 hours;
+        endTime = block.timestamp + 1 minutes;
         newHouse.houseColor = '#FFFFFF';
         newHouse.houseLocation = 'Sask, SK';
         newHouse.houseType = 'Townhouse';
@@ -78,14 +78,14 @@ contract Auction {
 
     // 付款
     function withdraw() public notOngoing() isOwner() returns (bool) {
-    uint256 amount = highestBid.bidAmount;
-    bids[highestBid.bidder] = 0;
-    highestBid.bidder = address(0);
-    highestBid.bidAmount = 0;
-    // 向房主付款
-    (bool success, ) = payable(owner).call{ value: amount }("");
-    require(success, 'Withdrawal failed.');
-    emit LogWithdrawal(msg.sender, amount);
+        uint256 amount = highestBid.bidAmount;
+        bids[highestBid.bidder] = 0;
+        highestBid.bidder = address(0);
+        highestBid.bidAmount = 0;
+        // 向房主付款
+        (bool success, ) = payable(owner).call{ value: amount }("");
+        require(success, 'Withdrawal failed.');
+        emit LogWithdrawal(msg.sender, amount);
         return true;
     }
     // 获取最高出价

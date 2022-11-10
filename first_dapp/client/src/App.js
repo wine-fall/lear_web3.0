@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import { parseEther, formatEther } from "@ethersproject/units";
 import Auction from "./contracts/Auction.json";
 // 这里的地址是前面合约部署成功之后的合约地址
-const AuctionContractAddress = "0xdD4b3e0F4bFfFe50D9742C4BC35223FD07F8b5c8";
+const AuctionContractAddress = "0xBa5bF3b645Fe778c44e698812ac181Da39EC88C4";
 const emptyAddress = "0x0000000000000000000000000000000000000000";
 
 function App() {
@@ -74,8 +74,8 @@ function App() {
   async function submitBid(event) {
     event.preventDefault();
     if (typeof window.ethereum !== "undefined") {
-      const contract = await initializeProvider();
       try {
+		const contract = await initializeProvider();
         // User inputs amount in terms of Ether, convert to Wei before sending to the contract.
         const wei = parseEther(amount);
         await contract.makeBid({ value: wei });
